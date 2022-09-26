@@ -171,9 +171,9 @@ int main(void){
 	 	  sec=time.seconds;
 	 	  min=time.minutes;
 
-	 	 //print hour minutes seconds to the buffer
+	 	//print hour minutes seconds to the buffer
 	 	sprintf(buffer, "%02d: %02d: %02d \r\n", time.hour,time.minutes,time.seconds);
-	 	 HAL_UART_Transmit(&huart2, buffer, sizeof(buffer), 1000);
+	 	HAL_UART_Transmit(&huart2, buffer, sizeof(buffer), 1000);
 
 	 	 //print the epoch time
 	 	sprintf(buffer, "Epoch time: %d \r\n", epochFromTime(time));
