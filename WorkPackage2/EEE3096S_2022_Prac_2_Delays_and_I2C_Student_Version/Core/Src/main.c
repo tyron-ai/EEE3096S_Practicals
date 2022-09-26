@@ -160,19 +160,11 @@ int main(void){
 	//First run this with nothing else in the loop and scope pin PC8 on an oscilloscope
 	  HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_8);
 
-	  //get the time
-
-
-
-
-
-
-
-
-
-
+	  
 	//YOUR CODE HERE
-	  	  getTime();
+
+  //get the time
+	  	getTime();
 	 	  uint8_t hr,min,sec;
 
 	 	  hr=time.hour;
