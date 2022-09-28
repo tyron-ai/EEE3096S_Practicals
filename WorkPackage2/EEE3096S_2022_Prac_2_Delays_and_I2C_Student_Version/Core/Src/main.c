@@ -141,7 +141,7 @@ int main(void){
   /* USER CODE BEGIN 2 */
 
   //set time here
-  setTime(0,0,0,2,20,9,22);
+  //setTime(0,0,12,2,20,9,22);
 
   //TO DO
   //TASK 6
@@ -160,22 +160,21 @@ int main(void){
 	//First run this with nothing else in the loop and scope pin PC8 on an oscilloscope
 	  HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_8);
 
-	  
+
 	//YOUR CODE HERE
 
   //get the time
-	  	getTime();
-	 	  uint8_t hr,min,sec;
-
-	 	  hr=time.hour;
-	 	  sec=time.seconds;
-	 	  min=time.minutes;
+	  uint8_t hr,min,sec;
+	  getTime();
+	 	hr=time.hour;
+	 	sec=time.seconds;
+	 	min=time.minutes;
 
 	 	//print hour minutes seconds to the buffer
 	 	sprintf(buffer, "%02d: %02d: %02d \r\n", time.hour,time.minutes,time.seconds);
 	 	HAL_UART_Transmit(&huart2, buffer, sizeof(buffer), 1000);
 
-	 	 //print the epoch time
+	 	//print the epoch time
 	 	sprintf(buffer, "Epoch time: %d \r\n", epochFromTime(time));
 	 	HAL_UART_Transmit(&huart2, buffer, sizeof(buffer), 1000);
 
@@ -394,7 +393,7 @@ uint8_t decToBcd(int val)
 	//YOUR CODE HERE
 
 		//This converts a decimal number to binary coded decimal format
-	 return (uint8_t)((val*16/10) + (val%10));
+	 return (uint8_t)((val/10*16) + (val%10));
 
 }
 //Need a function that converts int to binary
@@ -429,7 +428,7 @@ int bcdToDec(uint8_t val)
 	//Complete the BCD to decimal function
 
 	//This line converts a binary coded decimal to a decimal value
-	return (int)((val*10/16) + (val%16));
+	return (int)((val/16*10) + (val%16));
 
 	//YOUR CODE HERE
 
@@ -515,40 +514,40 @@ int epochFromTime(TIME time){
 	switch(month)
 	{
 	case 1:
-		day=31;
+		day=0;
 
 	case 2:
-		day=31+28;
+		day=31;
 
 	case 3:
-		day=31*2+28;
+		day=31+28;
 
 	case 4:
-		day=31*2+28+30;
+		day=31*2+28;
 
 	case 5:
-		day=31*3+28+30;
+		day=31*2+28+30;
 
 	case 6:
-		day=31*3+28+30*2;
+		day=31*3+28+30*1;
 
 	case 7:
-		day=31*4+28+30*2;
+		day=31*3+28+30*2;
 
 	case 8:
-		day=31*5+28+30*2;
+		day=31*4+28+30*2;
 
 	case 9:
-		day=31*3+28+30*3;
+		day=31*5+28+30*2;
 
 	case 10:
-		day=31*6+28+30*3;
+		day=31*5+28+30*3;
 
 	case 11:
-		day=31*6+28+30*4;
+		day=31*6+28+30*3;
 
 	case 12:
-		day=31*7+28+30*4;
+		day=31*6+28+30*4;
 
 	}
     year = year*365*24*60*60;
