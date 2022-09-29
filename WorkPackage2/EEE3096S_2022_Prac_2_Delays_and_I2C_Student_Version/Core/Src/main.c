@@ -165,7 +165,11 @@ int main(void){
 
   //get the time
 	  uint8_t hr,min,sec;
+
+    //Calling our get time method
 	  getTime();
+
+    //Assigning our variables
 	 	hr=time.hour;
 	 	sec=time.seconds;
 	 	min=time.minutes;
@@ -179,6 +183,7 @@ int main(void){
 	 	HAL_UART_Transmit(&huart2, buffer, sizeof(buffer), 1000);
 
 
+      //Calling the delay function
 	    pause_sec(5);
 
     /* USER CODE BEGIN 3 */
@@ -428,7 +433,7 @@ int bcdToDec(uint8_t val)
 	//Complete the BCD to decimal function
 
 	//This line converts a binary coded decimal to a decimal value
-	return (int)((val/16*10) + (val%16));
+	return (int)((val*10/16) + (val%16));
 
 	//YOUR CODE HERE
 
@@ -555,7 +560,7 @@ int epochFromTime(TIME time){
     hours = hours*3600;
     minutes = minutes*60;
 
-
+  //Returning our final epoch time based on the final result from the case statemets
 	return EPOCH_2022 + year + day + hours + minutes + sec;
 }
 
