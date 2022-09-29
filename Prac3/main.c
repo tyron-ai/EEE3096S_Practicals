@@ -133,14 +133,16 @@ int main(void)
 	  //TO DO:
 	  //TASK 2
 	  //Test your pollADC function and display via UART
-	  uint32_t adcValue = pollADC();
+	  uint32_t adcValue = pollADC(); // Create a variable and assign to an adc value converted by ADC
+	  //Print the results on Putty
 	  sprintf(buffer, "ADC value = %lu", adcValue);
 	  debugPrintln(&huart2, buffer);
 	  memset(buffer, 0, sizeof(buffer));
 
 	  //TASK 3
 	  //Test your ADCtoCRR function. Display CRR value via UART
-	  uint32_t ccrValue = ADCtoCRR(adcValue);
+	  uint32_t ccrValue = ADCtoCRR(adcValue); // variable to hold ccr value 
+	  // print the value to Putty
 	  sprintf(buffer, "ADCtoCrr = %lu", ccrValue);
 	  debugPrintln(&huart2, buffer);
 	  memset(buffer, 0, sizeof(buffer));
@@ -149,12 +151,7 @@ int main(void)
 
 	  //TASK 4
 	  //Complete rest of implementation
-//	  sprintf(buffer, "ADC value: %02d", adcValue);
-//	  HAL_UART_Transmit(&huart2, buffer, sizeof(buffer), 1000);
-//
-//	  sprintf(buffer, "CRR value: %02d", crr);
-//	  HAL_UART_Transmit(&huart2, buffer, sizeof(buffer), 1000);
-
+          // set the CCR register to ccr val
 	  __HAL_TIM_SetCompare(&htim3, TIM_CHANNEL_4, ccrValue);
 
 
@@ -446,6 +443,7 @@ void EXTI0_1_IRQHandler(void)
 		}
 	}
 	bounce = HAL_GetTick();
+	//print the notice when push button is pressed
 	debugPrintln(&huart2, "Press Detected");
 	sprintf(buffer, "Delay = %d", delay);
 	debugPrintln(&huart2, buffer);
@@ -457,10 +455,11 @@ uint32_t pollADC(void){
 	//TO DO:
 	//TASK 2
 	// Complete the function body
-	HAL_ADC_Start(&hadc);
-	HAL_ADC_PollForConversion(&hadc, 1000);
-	uint32_t val = HAL_ADC_GetValue(&hadc);
-	HAL_ADC_Stop(&hadc);
+	
+	HAL_ADC_Start(&hadc); //start the ADC conversion
+	HAL_ADC_PollForConversion(&hadc, 1000); // wait until it finishes
+	uint32_t val = HAL_ADC_GetValue(&hadc); //get the value converted
+	HAL_ADC_Stop(&hadc); // Stop the ADC
 	
 	return val;
 }
@@ -472,7 +471,7 @@ uint32_t ADCtoCRR(uint32_t adc_val){
 	//HINT: The CRR value for 100% DC is 47999 (DC = CRR/ARR = CRR/47999)
 	//HINT: The ADC range is approx 0 - 4095
 	//HINT: Scale number from 0-4096 to 0 - 47999
-	uint32_t val = adc_val * (47999/4095);
+	uint32_t val = adc_val * (47999/4095); // converts an ADC value to a PWM duty cycle value
 	return val;
 }
 
